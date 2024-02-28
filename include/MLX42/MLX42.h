@@ -6,7 +6,7 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 02:29:06 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2023/03/30 16:23:19 by ntamayo-      ########   odam.nl         */
+/*   Updated: 2024/02/28 13:46:20 by cbijman       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <stdint.h>
 # include <stdbool.h>
 # ifdef __cplusplus
+
 extern "C" {
 # endif
 
@@ -348,6 +349,16 @@ typedef struct mlx_image
 	void*			context;
 }	mlx_image_t;
 
+typedef struct font_atlas
+{
+	uint32_t	width;
+	uint32_t	height;
+	uint32_t	font_width;
+	uint32_t	font_height;
+	uint32_t	bytes_per_pixel;
+	char		*pixels;
+}	t_fontatlas;
+
 /**
  * Main MLX handle, carries important data in regards to the program.
  * @param window The window itself.
@@ -359,10 +370,12 @@ typedef struct mlx_image
  */
 typedef struct mlx
 {
-	void*		window;
-	void*		context;
+	void		*window;
+	void		*context;
 	int32_t		width;
 	int32_t		height;
+	t_fontatlas	*font;
+	int			font_changed;
 	double		delta_time;
 }	mlx_t;
 
@@ -390,7 +403,7 @@ typedef enum mlx_errno
 
 // Global error code from the MLX42 library, 0 on no error.
 extern mlx_errno_t mlx_errno;
-
+ 
 //= Global Settings =//
 
 // Set these values, if necessary, before calling `mlx_init` as they define the behaviour of MLX42.
@@ -505,7 +518,7 @@ void mlx_set_setting(mlx_settings_t setting, int32_t value);
 /**
  * Notifies MLX that it should stop rendering and exit the main loop.
  * This is not the same as terminate, this simply tells MLX to close the window.
- * 
+ * + 
  * @param[in] mlx The MLX instance handle.
  */
 void mlx_close_window(mlx_t* mlx);
@@ -919,20 +932,28 @@ mlx_image_t* mlx_put_string(mlx_t* mlx, const char* str, int32_t x, int32_t y);
 /**
  * Retrieve the texture data for the built-in font.
  * 
+ * @param[in] mlx The MLX instance handle.
  * @return Pointer to the built-in font texture.
  */
-const mlx_texture_t* mlx_get_font(void);
+const t_fontatlas* mlx_get_font(mlx_t *mlx);
+
+/**
+ * Set the font for MLX to use with mlx_put_string
+ * 
+ * @param[in] mlx The MLX instance handle.
+ * @param[in] atlas The atlas you want to use as font for mlx_put_string.
+ */
+void mlx_set_font(mlx_t *mlx, t_fontatlas *atlas);
 
 /**
  * This function lets you retrieve the X offset 
  * of the given char in the font texture.
  * 
- * NOTE: A single character is 10 * 20 in pixels!
- * 
+ * @param[in] mlx The MLX instance handle.
  * @param[in] c The character to get the offset from.
  * @return Non-negative if found or -1 if not found.
  */
-int32_t mlx_get_texoffset(char c);
+int32_t mlx_get_texoffset(mlx_t *mlx, char c);
 
 # ifdef __cplusplus
 }

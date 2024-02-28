@@ -6,10 +6,11 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 00:24:30 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2023/06/08 18:16:19 by XEDGit        ########   odam.nl         */
+/*   Updated: 2024/02/28 13:45:25 by cbijman       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "font/font.h"
 #include "MLX42/MLX42_Int.h"
 
 //= Private =//
@@ -176,6 +177,8 @@ mlx_t* mlx_init(int32_t width, int32_t height, const char* title, bool resize)
 	mlx_ctx_t* const mlxctx = mlx->context;
 	mlx->width = width;
 	mlx->height = height;
+	mlx->font = (t_fontatlas *) &font_atlas;
+	mlx->font_changed = 0;
 	mlxctx->initialWidth = width;
 	mlxctx->initialHeight = height;
 

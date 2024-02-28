@@ -6,25 +6,24 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/22 12:42:53 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/03/03 13:05:57 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2024/02/28 13:42:53 by cbijman       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FONT_H
 # define FONT_H
-# define FONT_WIDTH 10
-# define FONT_HEIGHT 20
-# include <stdint.h>
 
 // GIMP RGBA C-Source image dump (font.c)
 static struct s_font
 {
-	uint32_t		width;
-	uint32_t		height;
-	uint32_t		bpp;
-	char*			pixels;
+	unsigned int	width;
+	unsigned int	height;
+	unsigned int	font_width;
+	unsigned int	font_height;
+	unsigned int	bytes_per_pixel;
+	char			*pixels;
 }	font_atlas = {
-	1140, 20, 4,
+	1140, 20, 10, 20, 4,
 	"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 	"\0\0\0\0\377\377\377\377\377\377\377\377\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
 	"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\377\377\377\377\377\377"
